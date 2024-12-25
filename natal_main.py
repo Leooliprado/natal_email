@@ -56,9 +56,14 @@ def carregar_dados(arquivo_txt):
         for i in range(0, len(linhas), 3):  # Cada registro tem 3 linhas
             nome = linhas[i]
             email_destinatario = linhas[i+1]
-            mensagem = linhas[i+2].split(':', 1)[1].strip()  # Remove "Mensagem:"
+            # Tenta extrair a mensagem após ':'
+            try:
+                mensagem = linhas[i+2].split(':', 1)[1].strip()  # Remove "Mensagem:"
+            except IndexError:
+                raise ValueError(f"A linha de mensagem está formatada incorretamente: {linhas[i+2]}")
             pessoas.append((nome, email_destinatario, mensagem))
     return pessoas
+
 
 # Checagem contínua
 if __name__ == "__main__":
